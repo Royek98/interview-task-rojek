@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'SamsungOne';
+    src: url('../assets/fonts/SamsungOne-400.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SamsungOne-Bold';
+    src: url('../assets/fonts/SamsungOne-700.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.text-bold {
+    font-family: 'SamsungOne-Bold', sans-serif;
+    color: #000000;
+}
+
+.text-normal {
+    font-family: 'SamsungOne', sans-serif;
+}
+
+.text-light {
+    color: #767676;
+}
+
+html {
+    font-family: 'SamsungOne', sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+#title {
+    font-family: 'SamsungOne-Bold', sans-serif;
+    font-size: 40px;
+    text-align: center;
+}
+
+#main {
+    background-color: #f8f8f8 !important;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+}

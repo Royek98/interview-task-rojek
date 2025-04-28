@@ -1,0 +1,97 @@
+.product-card {
+    width: 338px;
+    padding: 25px 24px 25px 24px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.product-name {
+    min-height: 73px;
+    font-size: 18px;
+    width: 70%;
+}
+
+.product-card-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-card-top img {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product-card-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.product-details {
+    line-height: 18px;
+    font-size: 12px;
+}
+
+.energy-label {
+    display: flex;
+    flex-direction: row;
+    gap: 9px;
+}
+
+.price-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.price-label {
+    font-size: 40px;
+    line-height: 1;
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+}
+
+.price-small-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.decimal-number {
+    flex-shrink: 2;
+}
+
+.currency {
+    text-align: end;
+    line-height: 0.7;
+}
+
+.monthly-fee {
+    color: #555555 !important;
+}
+
+.product-card-bottom button {
+    background-color: #1428a0;
+    color: #ffffff;
+    font-size: 14px;
+    border-radius: 24px;
+    border: none;
+    padding: 14px 40px 14px 40px;
+    width: 150px;
+    align-self: center;
+    letter-spacing: 2px;
+}
+
+.product-card-bottom button:hover {
+    background-color: #000000;
+}

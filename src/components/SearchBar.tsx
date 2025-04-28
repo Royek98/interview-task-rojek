@@ -1,8 +1,10 @@
+import '../style/SearchBar.css';
+
 const SearchBar = () => {
     return (
-        <>
-            <input placeholder={'Search...'} />
-        </>
+        <div className={'center-container search-container'}>
+            <input id={'search-input'} placeholder={'Search...'} />
+        </div>
     );
 };
 

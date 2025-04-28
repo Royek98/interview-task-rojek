@@ -1,0 +1,64 @@
+#filter-container {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.filter-option-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-bottom: 22px;
+}
+
+.filter-option-container h2 {
+    font-size: 18px;
+}
+
+.filter-option-container button {
+    width: 249px;
+    height: 36px;
+    padding: 8px 12px 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    background-color: #FFFFFF;
+    border: none;
+}
+
+.filter-option-container button:hover {
+    cursor: pointer;
+}
+
+.filter-option-container img {
+    width: 13px;
+    height: 13px;
+}
+
+.option-container {
+    width: 249px;
+    position: absolute;
+    background-color: #FFFFFF;
+    margin-top: 15px;
+    box-shadow: 5px 4px 14px -13px #000000;
+    top: 80px;
+}
+
+.option-container ul {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.option-container ul li {
+    height: 40px;
+    align-content: center;
+    padding-left: 15px;
+}
+
+.option-container li:hover {
+    background-color: #F3F3F3;
+    cursor: pointer;
+}

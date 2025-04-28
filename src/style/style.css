@@ -31,6 +31,10 @@ html {
     color: #000000;
 }
 
+body {
+    margin: 0;
+}
+
 #title {
     font-family: 'SamsungOne-Bold', sans-serif;
     font-size: 40px;
@@ -39,7 +43,10 @@ html {
 
 #main {
     background-color: #f8f8f8 !important;
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*justify-content: center;*/
+}
+
+.center-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

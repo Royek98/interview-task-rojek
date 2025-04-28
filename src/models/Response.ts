@@ -8,6 +8,7 @@ export type Response = {
 export type ResultData = {
     common: Common;
     productList: Product[];
+    navGroups: NavGroup[];
 };
 
 export type Common = {
@@ -75,4 +76,18 @@ export type OptionList = {
     optionName: string;
     optionLocalName: string;
     multiColorYN: string;
+};
+
+export type NavGroup = {
+    categoryFilterName: string;
+    categoryFilterDispName: string;
+    categoryFilterCondition: string;
+    primaryFilterYN: string;
+    filterType: string;
+    productFinderFilter: ProductFinderFilter[];
+};
+
+export type ProductFinderFilter = {
+    filterLocalName: string;
+    filterSearchCode: string;
 };

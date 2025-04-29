@@ -30,7 +30,7 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
 
                 {navGroups
                     // I wanted to simplify filters, so I filtered out every option not related to washing machines
-                    // and options not needed.
+                    // and options not needed like for example reviews.
                     .filter(
                         (navGroup) =>
                             navGroup.categoryFilterName !== 'Price' &&

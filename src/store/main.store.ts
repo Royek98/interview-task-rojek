@@ -18,7 +18,7 @@ export type ProductState = {
     query: QueryState;
     products: Product[];
     nav: NavGroup[];
-    fetchData: (newQueryState: QueryState) => void;
+    fetchData: (newQuery: QueryState) => void;
     testFetch: (navPicks: QueryState) => void;
     setQuery: (newQueryState: QueryState) => void;
 };
@@ -27,8 +27,8 @@ export const useStore = create<ProductState>((set) => ({
     query: { start: 1, sort: 'onlineavailability', filters: [] },
     products: [],
     nav: [],
-    fetchData: (newQueryState: QueryState) => {
-        console.log(newQueryState);
+    fetchData: (newQuery: QueryState) => {
+        console.log(newQuery);
         // const url =
         //     'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
 
@@ -36,6 +36,7 @@ export const useStore = create<ProductState>((set) => ({
 
         const navGroups: NavGroup[] = response.resultData.navGroups;
 
+        // I had errors in parsing, so I had to do it manually
         const productList: Product[] = response.resultData.productList.map(
             (p) => {
                 const modelList: Model[] = p.modelList.map((m) => {
@@ -90,19 +91,17 @@ export const useStore = create<ProductState>((set) => ({
             }
         );
 
-        // state
-        set(() => {
-            // if (
-            //     JSON.stringify(state.query.filter) ===
-            //     JSON.stringify(state.currentNavPicks)
-            // )
-            //     return {
-            //         products: [...state.products, ...productList],
-            //         nav: navGroups,
-            //     };
+        set((state) => {
+            // if something in filters will change a new product list will replace current one
+            if (newQuery.start === 1) {
+                return {
+                    products: productList,
+                    nav: navGroups,
+                };
+            }
 
             return {
-                products: productList,
+                products: [...state.products, ...productList],
                 nav: navGroups,
             };
         });

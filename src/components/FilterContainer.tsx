@@ -10,6 +10,10 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                     title={'Sortuj po'}
                     productFinderFilter={[
                         {
+                            filterLocalName: 'Wszystkie',
+                            filterSearchCode: 'onlineavailability',
+                        },
+                        {
                             filterLocalName: 'Najnowsze',
                             filterSearchCode: 'newest',
                         },
@@ -39,25 +43,45 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                             navGroup.categoryFilterName !== 'reviews'
                     )
                     .map((navGroup) => {
+                        const navFinalResult: ProductFinderFilter[] = [
+                            {
+                                filterLocalName: 'Wszystkie',
+                                filterSearchCode: '',
+                            },
+                        ];
+
                         // This displays names for technologies much shorter
                         // without this it would look for example like this:
                         // EcoBubble™ - skuteczne i energooszczędne pranie w niskiej temperaturze
                         if (navGroup.categoryFilterName === 'technologies') {
-                            const betterDisplayName: ProductFinderFilter[] =
-                                navGroup.productFinderFilter.map((item) => ({
+                            const betterDisplayName: ProductFinderFilter[] = [
+                                {
+                                    filterLocalName: 'Wszystkie',
+                                    filterSearchCode: '',
+                                },
+                            ];
+
+                            navGroup.productFinderFilter.forEach((item) =>
+                                betterDisplayName.push({
                                     filterLocalName:
                                         item.filterLocalName.split(' -')[0],
                                     filterSearchCode: item.filterSearchCode,
-                                }));
+                                })
+                            );
 
                             return (
                                 <FilterOption
                                     key={navGroup.categoryFilterDispName}
-                                    title={`${navGroup.categoryFilterDispName}:`}
+                                    // title={`${navGroup.categoryFilterDispName}:`}
+                                    title={`Funkcje:`}
                                     productFinderFilter={betterDisplayName}
                                 />
                             );
                         }
+
+                        navGroup.productFinderFilter.forEach((item) => {
+                            navFinalResult.push(item);
+                        });
 
                         // This shortens filter name just to 'Klasa energetyczna'
                         if (
@@ -68,9 +92,7 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                                 <FilterOption
                                     key={navGroup.categoryFilterDispName}
                                     title={'Klasa energetyczna:'}
-                                    productFinderFilter={
-                                        navGroup.productFinderFilter
-                                    }
+                                    productFinderFilter={navFinalResult}
                                 />
                             );
                         }
@@ -79,9 +101,7 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                             <FilterOption
                                 key={navGroup.categoryFilterDispName}
                                 title={`${navGroup.categoryFilterDispName}:`}
-                                productFinderFilter={
-                                    navGroup.productFinderFilter
-                                }
+                                productFinderFilter={navFinalResult}
                             />
                         );
                     })}

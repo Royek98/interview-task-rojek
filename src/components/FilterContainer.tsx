@@ -10,10 +10,6 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                     title={'Sortuj po'}
                     productFinderFilter={[
                         {
-                            filterLocalName: 'Wszystkie',
-                            filterSearchCode: 'onlineavailability',
-                        },
-                        {
                             filterLocalName: 'Najnowsze',
                             filterSearchCode: 'newest',
                         },
@@ -47,7 +43,7 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                         // without this it would look for example like this:
                         // EcoBubble™ - skuteczne i energooszczędne pranie w niskiej temperaturze
                         if (navGroup.categoryFilterName === 'technologies') {
-                            const test: ProductFinderFilter[] =
+                            const betterDisplayName: ProductFinderFilter[] =
                                 navGroup.productFinderFilter.map((item) => ({
                                     filterLocalName:
                                         item.filterLocalName.split(' -')[0],
@@ -56,8 +52,9 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
 
                             return (
                                 <FilterOption
+                                    key={navGroup.categoryFilterDispName}
                                     title={`${navGroup.categoryFilterDispName}:`}
-                                    productFinderFilter={test}
+                                    productFinderFilter={betterDisplayName}
                                 />
                             );
                         }
@@ -69,6 +66,7 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                         ) {
                             return (
                                 <FilterOption
+                                    key={navGroup.categoryFilterDispName}
                                     title={'Klasa energetyczna:'}
                                     productFinderFilter={
                                         navGroup.productFinderFilter
@@ -79,6 +77,7 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
 
                         return (
                             <FilterOption
+                                key={navGroup.categoryFilterDispName}
                                 title={`${navGroup.categoryFilterDispName}:`}
                                 productFinderFilter={
                                     navGroup.productFinderFilter

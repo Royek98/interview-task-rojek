@@ -10,25 +10,57 @@ const FilterOption = ({
     title: string;
     productFinderFilter: ProductFinderFilter[];
 }) => {
-    // todo: When user clicks outside of box it will disappear
-    const [arrowState, setArrowState] = useState<boolean>(false);
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const showAllProducts: ProductFinderFilter = {
+        filterLocalName: 'Wszystkie',
+        filterSearchCode: 'onlineavailability',
+    };
+
+    const [currentPick, setCurrentPick] =
+        useState<ProductFinderFilter>(showAllProducts);
+
+    window.onclick = (event) => {
+        if (!(event.target as HTMLObjectElement).matches('.btn-option')) {
+            if (showDropdown) {
+                setShowDropdown(false);
+            }
+        }
+    };
+
+    const handleCurrentPickChange = (change: ProductFinderFilter) => {
+        setCurrentPick(change);
+    };
 
     const ShowOptions = ({
         productFinderFilter,
     }: {
         productFinderFilter: ProductFinderFilter[];
     }) => {
-        if (arrowState) {
+        if (showDropdown) {
             return (
                 <div className={'option-container'}>
-                    <ul onClick={() => setArrowState(!arrowState)}></ul>
-                    {productFinderFilter.map((item) => {
-                        return (
-                            <li key={item.filterSearchCode}>
-                                {item.filterLocalName}
-                            </li>
-                        );
-                    })}
+                    <ul onClick={() => setShowDropdown(!showDropdown)}>
+                        <li
+                            onClick={() =>
+                                handleCurrentPickChange(showAllProducts)
+                            }
+                        >
+                            {showAllProducts.filterLocalName}
+                        </li>
+                        {productFinderFilter.map((item) => {
+                            return (
+                                <li
+                                    key={item.filterSearchCode}
+                                    onClick={() =>
+                                        handleCurrentPickChange(item)
+                                    }
+                                >
+                                    {item.filterLocalName}
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
             );
         }
@@ -40,9 +72,18 @@ const FilterOption = ({
         <>
             <div className={'filter-option-container'}>
                 <h2 className={'text-bold'}>{title}</h2>
-                <button onClick={() => setArrowState(!arrowState)}>
-                    Popularność <img src={arrowState ? ArrowUp : ArrowDown} />
+                <button
+                    onEndedCapture={() => setShowDropdown(!showDropdown)}
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    className={'btn-option'}
+                >
+                    {currentPick.filterLocalName}
+                    <img
+                        src={showDropdown ? ArrowUp : ArrowDown}
+                        className={'btn-option'}
+                    />
                 </button>
+                {/*<input type={'text'} value={currentPick} />*/}
                 <ShowOptions productFinderFilter={productFinderFilter} />
             </div>
         </>

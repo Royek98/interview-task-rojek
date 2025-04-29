@@ -1,5 +1,5 @@
 import '../style/ProductCard.css';
-import { Product } from '../models/Response.ts';
+import { Product } from '../models/Response.model.ts';
 import washer from '../assets/imgs/washer.png';
 import GetMonthlyPriceInfo from './utils/Product/GetMonthlyPriceInfo.tsx';
 import GetDrumCapacity from './utils/Product/GetDrumCapacity.tsx';

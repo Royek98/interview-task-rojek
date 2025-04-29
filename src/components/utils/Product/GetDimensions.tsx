@@ -1,4 +1,4 @@
-import { KeySummary } from '../../../models/Response.ts';
+import { KeySummary } from '../../../models/Response.model.ts';
 
 const GetDimensions = ({ keySummary }: { keySummary: KeySummary[] }) => {
     const dimensions = keySummary

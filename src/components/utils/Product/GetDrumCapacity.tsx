@@ -1,4 +1,4 @@
-import { Product } from '../../../models/Response.ts';
+import { Product } from '../../../models/Response.model.ts';
 
 type Props = {
     product: Product;

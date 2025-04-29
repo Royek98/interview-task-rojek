@@ -1,4 +1,4 @@
-import { MonthlyPriceInfo } from '../../../models/Response.ts';
+import { MonthlyPriceInfo } from '../../../models/Response.model.ts';
 
 type Props = {
     monthlyPriceInfo: MonthlyPriceInfo;

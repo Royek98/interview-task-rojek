@@ -23,7 +23,7 @@
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border: none;
 }
 
@@ -39,7 +39,7 @@
 .option-container {
     width: 249px;
     position: absolute;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     margin-top: 15px;
     box-shadow: 5px 4px 14px -13px #000000;
     top: 80px;
@@ -59,6 +59,6 @@
 }
 
 .option-container li:hover {
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
     cursor: pointer;
 }

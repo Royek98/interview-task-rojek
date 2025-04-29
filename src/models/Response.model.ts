@@ -1,4 +1,4 @@
-export type Response = {
+export type ResponseModel = {
     statusCode: number;
     statusMessage: string;
     siteCode: string;

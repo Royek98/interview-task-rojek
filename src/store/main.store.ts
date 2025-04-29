@@ -11,30 +11,26 @@ import data from '../data/samsungApiResponse.json';
 export type QueryState = {
     start: number;
     sort: string;
-    filter: string[];
+    filters: string[];
 };
 
 export type ProductState = {
     query: QueryState;
     products: Product[];
     nav: NavGroup[];
-    currentNavPicks: string[];
     fetchData: (newQueryState: QueryState) => void;
-    setCurrentNavPicks: (newNavPicks: string[]) => void;
-    testFetch: (navPicks: string[]) => void;
+    testFetch: (navPicks: QueryState) => void;
     setQuery: (newQueryState: QueryState) => void;
 };
 
 export const useStore = create<ProductState>((set) => ({
-    query: { start: 1, sort: 'onlineavailability', filter: [] },
+    query: { start: 1, sort: 'onlineavailability', filters: [] },
     products: [],
     nav: [],
-    currentNavPicks: [],
     fetchData: (newQueryState: QueryState) => {
-        const url =
-            'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
-
-        console.log(`${url}&start=${newQueryState.start}}&sort=`);
+        console.log(newQueryState);
+        // const url =
+        //     'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
 
         const response = data.response;
 
@@ -111,11 +107,17 @@ export const useStore = create<ProductState>((set) => ({
             };
         });
     },
-    setCurrentNavPicks: (newNavPicks) => {
-        set({ currentNavPicks: newNavPicks });
-    },
-    testFetch: (navPicks: string[]) => {
-        console.log(navPicks);
+    testFetch: (query: QueryState) => {
+        let url =
+            'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
+
+        url = `${url}&sort=${query.sort}&start=${query.start}`;
+
+        for (let i = 0; i < query.filters.length; i++) {
+            url += `&filter${i + 1}=${query.filters[i]}`;
+        }
+
+        console.log(url);
     },
     setQuery: (newQueryState: QueryState) => {
         set({ query: newQueryState });

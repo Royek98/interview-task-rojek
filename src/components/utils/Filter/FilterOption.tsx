@@ -2,7 +2,7 @@ import { ProductFinderFilter } from '../../../models/Response.model.ts';
 import { useState } from 'react';
 import ArrowUp from '../../../assets/icons/arrow-up.svg';
 import ArrowDown from '../../../assets/icons/arrow-down.svg';
-import { useStore } from '../../../store/main.store.ts';
+import { QueryState, useStore } from '../../../store/main.store.ts';
 
 const FilterOption = ({
     title,
@@ -13,15 +13,7 @@ const FilterOption = ({
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
 
-    const { currentNavPicks, setCurrentNavPicks, testFetch } = useStore();
-
-    // const showAllProducts: ProductFinderFilter = {
-    //     filterLocalName: 'Wszystkie',
-    //     filterSearchCode: 'onlineavailability',
-    // };
-
-    // const [currentPick, setCurrentPick] =
-    //     useState<ProductFinderFilter>(showAllProducts);
+    const { testFetch, query, setQuery } = useStore();
 
     const [currentPick, setCurrentPick] = useState<ProductFinderFilter>(
         productFinderFilter[0]
@@ -37,19 +29,37 @@ const FilterOption = ({
     };
 
     const handleCurrentPickChange = (change: ProductFinderFilter) => {
+        setCurrentPick(change); // new local state for single dropdown menu
+
+        if (title.includes('Sortuj')) {
+            const newQuery: QueryState = {
+                start: 1,
+                sort: change.filterSearchCode,
+                filters: query.filters,
+            };
+            setQuery(newQuery); // new global state
+
+            testFetch(newQuery);
+            return;
+        }
+
         // it removes previous pick from the same dropdown menu
-        const removePreviousPushNew = currentNavPicks.filter(
-            (pick: string) => pick !== currentPick.filterSearchCode
+        const removePreviousPushNew: string[] = query.filters.filter(
+            (filter) => filter !== currentPick.filterSearchCode
         );
 
-        // adds new pick but not 'Wszystkie' - it's an empty string
+        // adds new nav pick but NOT 'Wszystkie' (it's an empty string)
         if (change.filterSearchCode !== '')
             removePreviousPushNew.push(change.filterSearchCode);
 
-        setCurrentPick(change); // local state for single dropdown menu
-        setCurrentNavPicks(removePreviousPushNew); // global state
+        const newQuery: QueryState = {
+            start: 1,
+            sort: query.sort,
+            filters: removePreviousPushNew,
+        };
+        setQuery(newQuery); // new global state
 
-        testFetch(removePreviousPushNew);
+        testFetch(newQuery);
     };
 
     const ShowOptions = ({

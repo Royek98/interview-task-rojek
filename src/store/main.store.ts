@@ -18,15 +18,21 @@ export type ProductState = {
     query: QueryState;
     products: Product[];
     nav: NavGroup[];
+    countProducts: number;
+    searchInput: string;
     fetchData: (newQuery: QueryState) => void;
     testFetch: (navPicks: QueryState) => void;
     setQuery: (newQueryState: QueryState) => void;
+    setCountProducts: (countProducts: number) => void;
+    setSearchInput: (searchInput: string) => void;
 };
 
 export const useStore = create<ProductState>((set) => ({
     query: { start: 1, sort: 'onlineavailability', filters: [] },
     products: [],
     nav: [],
+    countProducts: 0,
+    searchInput: '',
     fetchData: (newQuery: QueryState) => {
         console.log(newQuery);
         // const url =
@@ -94,14 +100,18 @@ export const useStore = create<ProductState>((set) => ({
         set((state) => {
             // if something in filters will change a new product list will replace current one
             if (newQuery.start === 1) {
+                state.setCountProducts(productList.length);
                 return {
                     products: productList,
                     nav: navGroups,
                 };
             }
 
+            const newProducts = [...state.products, ...productList];
+
+            state.setCountProducts(newProducts.length);
             return {
-                products: [...state.products, ...productList],
+                products: newProducts,
                 nav: navGroups,
             };
         });
@@ -120,5 +130,11 @@ export const useStore = create<ProductState>((set) => ({
     },
     setQuery: (newQueryState: QueryState) => {
         set({ query: newQueryState });
+    },
+    setCountProducts: (countProducts: number) => {
+        set({ countProducts: countProducts });
+    },
+    setSearchInput: (searchInput: string) => {
+        set({ searchInput: searchInput.toLowerCase().trim() });
     },
 }));

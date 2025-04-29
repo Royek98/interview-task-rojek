@@ -1,8 +1,7 @@
 import { ProductFinderFilter } from '../../../models/Response.model.ts';
 import { useState } from 'react';
-import ArrowUp from '../../../assets/icons/arrow-up.svg';
-import ArrowDown from '../../../assets/icons/arrow-down.svg';
 import { QueryState, useStore } from '../../../store/main.store.ts';
+import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 
 const FilterOption = ({
     title,
@@ -108,10 +107,19 @@ const FilterOption = ({
                     className={'btn-option'}
                 >
                     {currentPick.filterLocalName}
-                    <img
-                        src={showDropdown ? ArrowUp : ArrowDown}
-                        className={'btn-option'}
-                    />
+                    {showDropdown ? (
+                        <IoMdArrowDropup
+                            className={'btn-option'}
+                            size={30}
+                            color={'#8D8D8D'}
+                        />
+                    ) : (
+                        <IoMdArrowDropdown
+                            className={'btn-option'}
+                            size={30}
+                            color={'#8D8D8D'}
+                        />
+                    )}
                 </button>
                 {/*<input type={'text'} value={currentPick} />*/}
                 <ShowOptions productFinderFilter={productFinderFilter} />

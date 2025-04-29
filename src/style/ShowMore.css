@@ -1,0 +1,13 @@
+#show-more {
+    color: #007AFF;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 16px;
+    gap: 9px;
+    padding-bottom: 15px;
+}
+
+#show-more:hover {
+    cursor: pointer;
+}

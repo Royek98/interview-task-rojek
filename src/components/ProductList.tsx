@@ -1,17 +1,25 @@
 import '../style/ProductList.css';
 // import data from '../data/samsungApiResponse.json';
-import { Product } from '../models/Response.model.ts';
 import ProductCard from './ProductCard.tsx';
+import { useStore } from '../store/main.store.ts';
 
-const ProductList = ({ productList }: { productList: Product[] }) => {
-    // const response = data.response;
+const ProductList = () => {
+    // countProducts
+    const { searchInput, products } = useStore();
+
+    const filteredList = products.filter((product) =>
+        product.fmyMarketingName
+            .toLowerCase()
+            .includes(searchInput.toLowerCase())
+    );
+
     return (
         <>
             <div id={'product-list-container'}>
                 <div>
-                    <p>Liczba wyników: {productList.length}</p>
+                    <p>Liczba wyników: {filteredList.length}</p>
                     <div id={'product-list'}>
-                        {productList.map((product) => (
+                        {filteredList.map((product) => (
                             <ProductCard
                                 key={product.familyId}
                                 product={product}

@@ -14,16 +14,16 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                             filterSearchCode: 'onlineavailability',
                         },
                         {
-                            filterLocalName: 'Najnowsze',
-                            filterSearchCode: 'newest',
-                        },
-                        {
                             filterLocalName: 'Cena: Od wysokiej do niskiej',
                             filterSearchCode: 'pricedecending',
                         },
                         {
                             filterLocalName: 'Cena: Od niskiej do wysokiej',
                             filterSearchCode: 'priceascending',
+                        },
+                        {
+                            filterLocalName: 'Najnowsze',
+                            filterSearchCode: 'newest',
                         },
                     ]}
                 />

@@ -43,6 +43,7 @@ export type Model = {
     energyLabelGrade: string | null;
     price: string;
     priceDisplay: string;
+    promotionPriceDisplay: string;
     usp: string[];
     monthlyPriceInfo: MonthlyPriceInfo;
     keySummary: KeySummary[];

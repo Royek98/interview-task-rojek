@@ -5,8 +5,11 @@ type Props = {
     price: string;
 };
 const GetMonthlyPriceInfo = ({ monthlyPriceInfo, price }: Props) => {
-    if (monthlyPriceInfo === null) {
-        return <>{(Number(price) / 30).toFixed(2)} zł x 30 rat</>;
+    if (monthlyPriceInfo.leasingMonthly === undefined) {
+        if (price !== null) {
+            return <>{(Number(price) / 30).toFixed(2)} zł x 30 rat</>;
+        }
+        return <></>;
     }
     return (
         <>

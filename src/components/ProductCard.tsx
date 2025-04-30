@@ -1,18 +1,25 @@
 import '../style/ProductCard.css';
 import { Product } from '../models/Response.model.ts';
-import washer from '../assets/imgs/washer.png';
 import GetMonthlyPriceInfo from './utils/Product/GetMonthlyPriceInfo.tsx';
 import GetDrumCapacity from './utils/Product/GetDrumCapacity.tsx';
 import GetEnergyLabel from './utils/Product/GetEnergyLabel.tsx';
 import GetDimensions from './utils/Product/GetDimensions.tsx';
 import GetFeature from './utils/Product/GetFeature.tsx';
 import GetPrice from './utils/Product/GetPrice.tsx';
+import washer from '../assets/imgs/washer.png';
 
 type Props = {
     product: Product;
 };
 
 const ProductCard = ({ product }: Props) => {
+    const displayPromotion =
+        product.modelList[0].promotionPriceDisplay === undefined
+            ? product.modelList[0].priceDisplay
+            : product.modelList[0].promotionPriceDisplay;
+
+    console.log(displayPromotion);
+
     return (
         <div className={'product-card'}>
             <div className={'product-card-top'}>
@@ -57,10 +64,9 @@ const ProductCard = ({ product }: Props) => {
                         Cena obowiązuje: 15.09.2022 - 21.09.2022
                     </span>
 
+                    {/*product.modelList[0].priceDisplay*/}
                     <div className={'price text-bold'}>
-                        <GetPrice
-                            priceDisplay={product.modelList[0].priceDisplay}
-                        />
+                        <GetPrice priceDisplay={displayPromotion} />
                     </div>
                 </div>
                 <span className={'text-bold monthly-fee'}>

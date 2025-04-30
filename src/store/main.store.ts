@@ -6,7 +6,8 @@ import {
     NavGroup,
     Product,
 } from '../models/Response.model.ts';
-import data from '../data/samsungApiResponse.json';
+import axios from 'axios';
+// import data from '../data/samsungApiResponse.json';
 
 export type QueryState = {
     start: number;
@@ -21,7 +22,6 @@ export type ProductState = {
     countProducts: number;
     searchInput: string;
     fetchData: (newQuery: QueryState) => void;
-    testFetch: (navPicks: QueryState) => void;
     setQuery: (newQueryState: QueryState) => void;
     setCountProducts: (countProducts: number) => void;
     setSearchInput: (searchInput: string) => void;
@@ -33,18 +33,28 @@ export const useStore = create<ProductState>((set) => ({
     nav: [],
     countProducts: 0,
     searchInput: '',
-    fetchData: (newQuery: QueryState) => {
-        console.log(newQuery);
-        // const url =
-        //     'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
+    fetchData: async (newQuery: QueryState) => {
+        let url =
+            'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
 
-        const response = data.response;
+        url = `${url}&sort=${newQuery.sort}&start=${newQuery.start}`;
+
+        for (let i = 0; i < newQuery.filters.length; i++) {
+            url += `&filter${i + 1}=${newQuery.filters[i]}`;
+        }
+
+        console.log('url', url);
+        const request = await axios.get(url);
+
+        const response = request.data.response;
+
+        // const response = data.response;
 
         const navGroups: NavGroup[] = response.resultData.navGroups;
 
         // I had errors in parsing, so I had to do it manually
         const productList: Product[] = response.resultData.productList.map(
-            (p) => {
+            (p: Product) => {
                 const modelList: Model[] = p.modelList.map((m) => {
                     const monthlyPriceInfo: MonthlyPriceInfo = {
                         leasingMonthly: m.monthlyPriceInfo?.leasingMonthly,
@@ -71,6 +81,7 @@ export const useStore = create<ProductState>((set) => ({
                         energyLabelGrade: m.energyLabelGrade,
                         price: m.price,
                         priceDisplay: m.priceDisplay,
+                        promotionPriceDisplay: m.promotionPriceDisplay,
                         usp: m.usp,
                         monthlyPriceInfo: monthlyPriceInfo,
                         keySummary: keySummary,
@@ -115,18 +126,6 @@ export const useStore = create<ProductState>((set) => ({
                 nav: navGroups,
             };
         });
-    },
-    testFetch: (query: QueryState) => {
-        let url =
-            'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
-
-        url = `${url}&sort=${query.sort}&start=${query.start}`;
-
-        for (let i = 0; i < query.filters.length; i++) {
-            url += `&filter${i + 1}=${query.filters[i]}`;
-        }
-
-        console.log(url);
     },
     setQuery: (newQueryState: QueryState) => {
         set({ query: newQueryState });

@@ -3,7 +3,7 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { QueryState, useStore } from '../store/main.store.ts';
 
 const ShowMore = () => {
-    const { testFetch, countProducts, query } = useStore();
+    const { fetchData, countProducts, query } = useStore();
 
     const handleFetch = () => {
         const newQuery: QueryState = {
@@ -12,7 +12,7 @@ const ShowMore = () => {
             filters: query.filters,
         };
 
-        testFetch(newQuery);
+        fetchData(newQuery);
     };
 
     return (

@@ -12,7 +12,7 @@ const FilterOption = ({
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
 
-    const { testFetch, query, setQuery } = useStore();
+    const { fetchData, query, setQuery } = useStore();
 
     const [currentPick, setCurrentPick] = useState<ProductFinderFilter>(
         productFinderFilter[0]
@@ -38,7 +38,7 @@ const FilterOption = ({
             };
             setQuery(newQuery); // new global state
 
-            testFetch(newQuery);
+            fetchData(newQuery);
             return;
         }
 
@@ -56,9 +56,10 @@ const FilterOption = ({
             sort: query.sort,
             filters: removePreviousPushNew,
         };
+        console.log(newQuery);
         setQuery(newQuery); // new global state
 
-        testFetch(newQuery);
+        fetchData(newQuery);
     };
 
     const ShowOptions = ({

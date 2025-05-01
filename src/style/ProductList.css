@@ -5,6 +5,10 @@
         justify-content: center;
         gap: 18px;
     }
+
+    #product-list-container p {
+        text-align: center;
+    }
 }
 
 @media only screen and (min-width: 820px) {
@@ -24,7 +28,7 @@
     }
 }
 
-#product-list p {
+#product-list-container p {
     font-size: 14px;
 }
 

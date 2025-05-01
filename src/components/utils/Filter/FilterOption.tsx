@@ -1,6 +1,6 @@
 import { ProductFinderFilter } from '../../../models/Response.model.ts';
 import { useState } from 'react';
-import { QueryState, useStore } from '../../../store/main.store.ts';
+import { Filter, QueryState, useStore } from '../../../store/main.store.ts';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 
 const FilterOption = ({
@@ -30,35 +30,38 @@ const FilterOption = ({
     const handleCurrentPickChange = (change: ProductFinderFilter) => {
         setCurrentPick(change); // new local state for single dropdown menu
 
-        if (title.includes('Sortuj')) {
-            const newQuery: QueryState = {
-                start: 1,
-                sort: change.filterSearchCode,
-                filters: query.filters,
-            };
-            setQuery(newQuery); // new global state
+        const newFilter: Filter = {
+            filter2: query.filters.filter2,
+            filter5: query.filters.filter5,
+            filter6: query.filters.filter6,
+        };
+        let newSort = query.sort;
 
-            fetchData(newQuery);
-            return;
+        switch (title) {
+            case 'Pojemność:':
+                newFilter.filter2 = change.filterSearchCode;
+                break;
+            case 'Funkcje:':
+                newFilter.filter5 = change.filterSearchCode;
+                break;
+            case 'Klasa energetyczna:':
+                newFilter.filter6 = change.filterSearchCode;
+                break;
+            case 'Sortuj po:':
+                newSort = change.filterSearchCode;
+                break;
+            default:
+                console.error('Unknown title');
+                break;
         }
-
-        // it removes previous pick from the same dropdown menu
-        const removePreviousPushNew: string[] = query.filters.filter(
-            (filter) => filter !== currentPick.filterSearchCode
-        );
-
-        // adds new nav pick but NOT 'Wszystkie' (it's an empty string)
-        if (change.filterSearchCode !== '')
-            removePreviousPushNew.push(change.filterSearchCode);
 
         const newQuery: QueryState = {
             start: 1,
-            sort: query.sort,
-            filters: removePreviousPushNew,
+            sort: newSort,
+            filters: newFilter,
         };
-        console.log(newQuery);
-        setQuery(newQuery); // new global state
 
+        setQuery(newQuery); // new global state
         fetchData(newQuery);
     };
 

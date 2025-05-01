@@ -7,12 +7,19 @@ import {
     Product,
 } from '../models/Response.model.ts';
 import axios from 'axios';
-// import data from '../data/samsungApiResponse.json';
+// import data from '../data/stringamsungApiResponse.json';
+
+// codes example: filter5=05z19 - technology AI Home
+export type Filter = {
+    filter2: string; // capacity
+    filter5: string; // technologies / functionality
+    filter6: string; // energy grade
+};
 
 export type QueryState = {
     start: number;
     sort: string;
-    filters: string[];
+    filters: Filter;
 };
 
 export type ProductState = {
@@ -28,27 +35,30 @@ export type ProductState = {
 };
 
 export const useStore = create<ProductState>((set) => ({
-    query: { start: 1, sort: 'onlineavailability', filters: [] },
+    query: {
+        start: 1,
+        sort: 'onlineavailability',
+        filters: { filter2: '', filter5: '', filter6: '' },
+    },
     products: [],
     nav: [],
     countProducts: 0,
     searchInput: '',
     fetchData: async (newQuery: QueryState) => {
+        // &filter1=04z01 - only washing machines
         let url =
-            'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10';
-
+            'https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10&filter1=04z01';
         url = `${url}&sort=${newQuery.sort}&start=${newQuery.start}`;
 
-        for (let i = 0; i < newQuery.filters.length; i++) {
-            url += `&filter${i + 1}=${newQuery.filters[i]}`;
-        }
+        url = urlAddFilter(url, newQuery.filters.filter2, 2);
+        url = urlAddFilter(url, newQuery.filters.filter5, 5);
+        url = urlAddFilter(url, newQuery.filters.filter6, 6);
 
-        console.log('url', url);
         const request = await axios.get(url);
-
         const response = request.data.response;
-
         // const response = data.response;
+
+        console.log(url);
 
         const navGroups: NavGroup[] = response.resultData.navGroups;
 
@@ -137,3 +147,13 @@ export const useStore = create<ProductState>((set) => ({
         set({ searchInput: searchInput.toLowerCase().trim() });
     },
 }));
+
+const urlAddFilter = (
+    url: string,
+    filter: string,
+    filterIndex: number
+): string => {
+    if (filter !== '') return (url = `${url}&filter${filterIndex}=${filter}`);
+
+    return url;
+};

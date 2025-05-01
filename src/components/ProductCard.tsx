@@ -18,8 +18,6 @@ const ProductCard = ({ product }: Props) => {
             ? product.modelList[0].priceDisplay
             : product.modelList[0].promotionPriceDisplay;
 
-    console.log(displayPromotion);
-
     return (
         <div className={'product-card'}>
             <div className={'product-card-top'}>

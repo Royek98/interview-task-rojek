@@ -7,19 +7,19 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
         <div className={'center-container'}>
             <div id={'filter-container'}>
                 <FilterOption
-                    title={'Sortuj po'}
+                    title={'Sortuj po:'}
                     productFinderFilter={[
                         {
                             filterLocalName: 'Wszystkie',
                             filterSearchCode: 'onlineavailability',
                         },
                         {
-                            filterLocalName: 'Cena: Od wysokiej do niskiej',
-                            filterSearchCode: 'pricedecending',
-                        },
-                        {
                             filterLocalName: 'Cena: Od niskiej do wysokiej',
                             filterSearchCode: 'priceascending',
+                        },
+                        {
+                            filterLocalName: 'Cena: Od wysokiej do niskiej',
+                            filterSearchCode: 'pricedecending',
                         },
                         {
                             filterLocalName: 'Najnowsze',

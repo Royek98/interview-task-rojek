@@ -1,5 +1,6 @@
 const GetPrice = ({ priceDisplay }: { priceDisplay: string }) => {
     const PrintPrice = () => {
+        // new products are usually with null price
         if (priceDisplay !== null) {
             const [price, decimalAndCurrency] = priceDisplay.split(',');
             const [decimal, currency] = decimalAndCurrency.split(' ');

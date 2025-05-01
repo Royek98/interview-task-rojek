@@ -1,5 +1,5 @@
 import { ProductFinderFilter } from '../../../models/Response.model.ts';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Filter, QueryState, useStore } from '../../../store/main.store.ts';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 
@@ -11,6 +11,7 @@ const FilterOption = ({
     productFinderFilter: ProductFinderFilter[];
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
+    const ref = useRef<HTMLUListElement>(null);
 
     const { fetchData, query, setQuery } = useStore();
 
@@ -18,14 +19,15 @@ const FilterOption = ({
         productFinderFilter[0]
     );
 
-    //todo BUG fix: when multiple dropdowns are opened this only closes the last one, the rest are still opened and you have to manually click on button to close them
-    window.onclick = (event) => {
-        if (!(event.target as HTMLObjectElement).matches('.btn-option')) {
-            if (showDropdown) {
-                setShowDropdown(false);
-            }
+    const handleClickOutside = (event: Event) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+            setShowDropdown(false);
         }
     };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+    }, []);
 
     const handleCurrentPickChange = (change: ProductFinderFilter) => {
         setCurrentPick(change); // new local state for single dropdown menu
@@ -73,7 +75,10 @@ const FilterOption = ({
         if (showDropdown) {
             return (
                 <div className={'option-container'}>
-                    <ul onClick={() => setShowDropdown(!showDropdown)}>
+                    <ul
+                        ref={ref}
+                        onClick={() => setShowDropdown(!showDropdown)}
+                    >
                         {/*<li*/}
                         {/*    onClick={() =>*/}
                         {/*        handleCurrentPickChange(showAllProducts)*/}

@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import ShowMore from './components/ShowMore.tsx';
 
 function App() {
-    const { fetchData, nav, query } = useStore();
+    const { fetchData, query } = useStore();
 
     useEffect(() => {
         fetchData(query);
@@ -17,7 +17,7 @@ function App() {
             <h1 id={'title'}>Wybierz urządzenie</h1>
             <div id={'main'}>
                 <SearchBar />
-                <FilterContainer navGroups={nav} />
+                <FilterContainer />
                 <ProductList />
                 <ShowMore />
             </div>

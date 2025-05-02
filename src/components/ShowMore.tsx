@@ -1,7 +1,8 @@
 import '../style/ShowMore.css';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { QueryState, useStore } from '../store/main.store.ts';
+import { useStore } from '../store/main.store.ts';
 import LoadingScreen from './LoadingScreen.tsx';
+import { QueryState } from '../models/Query.model.ts';
 
 const ShowMore = () => {
     const {

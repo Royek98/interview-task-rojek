@@ -1,13 +1,9 @@
 import { Product } from '../../../models/Response.model.ts';
 
-type Props = {
-    product: Product;
-};
-
 // some washers have the capacity in chipOptions, some in keySummary
 // but the summary can be 'Pojemnoość' or 'Ładowność'
 // this should be in one place for every washer...
-const GetDrumCapacity = ({ product }: Props) => {
+const GetDrumCapacity = ({ product }: { product: Product }) => {
     const drumCapacity = product.chipOptions
         .filter((option) => option.optionTypeName === 'Capacity')
         .map((option) => option.optionList[0].optionLocalName);

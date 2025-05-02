@@ -6,7 +6,7 @@ import GetEnergyLabel from './utils/Product/GetEnergyLabel.tsx';
 import GetDimensions from './utils/Product/GetDimensions.tsx';
 import GetFeature from './utils/Product/GetFeature.tsx';
 import GetPrice from './utils/Product/GetPrice.tsx';
-import washer from '../assets/imgs/washer.png';
+// import washer from '../assets/imgs/washer.png';
 import { useState } from 'react';
 
 type Props = {
@@ -28,6 +28,7 @@ const ProductCard = ({ product }: Props) => {
                     src={product.modelList[0].thumbUrl}
                     alt={product.modelList[0].thumbUrlAlt}
                 />
+                {/* img placeholder*/}
                 {/*<img src={washer} alt={'washer'} />*/}
                 <div className={'product-name text-bold'}>
                     {product.fmyMarketingName}

@@ -4,7 +4,6 @@ import ProductCard from './ProductCard.tsx';
 import { useStore } from '../store/main.store.ts';
 
 const ProductList = () => {
-    // countProducts
     const { searchInput, products } = useStore();
 
     const filteredList = products.filter((product) =>

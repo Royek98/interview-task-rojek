@@ -7,20 +7,8 @@ import {
     Product,
 } from '../models/Response.model.ts';
 import axios from 'axios';
+import { QueryState } from '../models/Query.model.ts';
 // import data from '../data/samsungApiResponse.json';
-
-// codes example: filter5=05z19 - technology AI Home
-export type Filter = {
-    filter2: string; // capacity
-    filter5: string; // technologies / functionality
-    filter6: string; // energy grade
-};
-
-export type QueryState = {
-    start: number;
-    sort: string;
-    filters: Filter;
-};
 
 export type ProductState = {
     query: QueryState;
@@ -157,7 +145,7 @@ const urlAddFilter = (
     filter: string,
     filterIndex: number
 ): string => {
-    if (filter !== '') return (url = `${url}&filter${filterIndex}=${filter}`);
+    if (filter !== '') return `${url}&filter${filterIndex}=${filter}`;
 
     return url;
 };

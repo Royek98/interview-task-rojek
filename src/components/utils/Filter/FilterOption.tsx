@@ -1,8 +1,9 @@
 import { ProductFinderFilter } from '../../../models/Response.model.ts';
 import { useState } from 'react';
-import { Filter, QueryState, useStore } from '../../../store/main.store.ts';
+import { useStore } from '../../../store/main.store.ts';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import LoadingScreen from '../../LoadingScreen.tsx';
+import { Filter, QueryState } from '../../../models/Query.model.ts';
 
 const FilterOption = ({
     title,
@@ -19,6 +20,8 @@ const FilterOption = ({
     const [currentPick, setCurrentPick] = useState<ProductFinderFilter>(
         productFinderFilter[0]
     );
+
+    //todo BUG fix: when multiple dropdowns are opened this only closes the last one, the rest are still opened and you have to manually click on button to close them
 
     document.onclick = (event) => {
         if (!(event.target as HTMLObjectElement).matches('.btn-option')) {
@@ -77,13 +80,6 @@ const FilterOption = ({
             return (
                 <div className={'option-container'}>
                     <ul>
-                        {/*<li*/}
-                        {/*    onClick={() =>*/}
-                        {/*        handleCurrentPickChange(showAllProducts)*/}
-                        {/*    }*/}
-                        {/*>*/}
-                        {/*    {showAllProducts.filterLocalName}*/}
-                        {/*</li>*/}
                         {productFinderFilter.map((item) => {
                             return (
                                 <li

@@ -1,8 +1,10 @@
 import '../style/FilterContainer.css';
-import { NavGroup, ProductFinderFilter } from '../models/Response.model.ts';
+import { ProductFinderFilter } from '../models/Response.model.ts';
 import FilterOption from './utils/Filter/FilterOption.tsx';
+import { useStore } from '../store/main.store.ts';
 
-const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
+const FilterContainer = () => {
+    const { nav } = useStore();
     return (
         <div className={'center-container'}>
             <div id={'filter-container'}>
@@ -28,7 +30,7 @@ const FilterContainer = ({ navGroups }: { navGroups: NavGroup[] }) => {
                     ]}
                 />
 
-                {navGroups
+                {nav
                     // I wanted to simplify filters, so I filtered out every option not related to washing machines
                     // and options not needed like for example reviews.
                     .filter(

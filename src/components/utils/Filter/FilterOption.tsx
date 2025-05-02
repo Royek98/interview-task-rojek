@@ -1,7 +1,8 @@
 import { ProductFinderFilter } from '../../../models/Response.model.ts';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Filter, QueryState, useStore } from '../../../store/main.store.ts';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
+import LoadingScreen from '../../LoadingScreen.tsx';
 
 const FilterOption = ({
     title,
@@ -11,26 +12,25 @@ const FilterOption = ({
     productFinderFilter: ProductFinderFilter[];
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
-    const ref = useRef<HTMLUListElement>(null);
 
-    const { fetchData, query, setQuery } = useStore();
+    const { fetchData, query, setQuery, loadingStatus, setLoadingStatus } =
+        useStore();
 
     const [currentPick, setCurrentPick] = useState<ProductFinderFilter>(
         productFinderFilter[0]
     );
 
-    const handleClickOutside = (event: Event) => {
-        if (ref.current && !ref.current.contains(event.target as Node)) {
-            setShowDropdown(false);
+    document.onclick = (event) => {
+        if (!(event.target as HTMLObjectElement).matches('.btn-option')) {
+            if (showDropdown) {
+                setShowDropdown(false);
+            }
         }
     };
 
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutside, true);
-    }, []);
-
     const handleCurrentPickChange = (change: ProductFinderFilter) => {
         setCurrentPick(change); // new local state for single dropdown menu
+        setShowDropdown(false);
 
         const newFilter: Filter = {
             filter2: query.filters.filter2,
@@ -63,6 +63,7 @@ const FilterOption = ({
             filters: newFilter,
         };
 
+        setLoadingStatus(true);
         setQuery(newQuery); // new global state
         fetchData(newQuery);
     };
@@ -75,10 +76,7 @@ const FilterOption = ({
         if (showDropdown) {
             return (
                 <div className={'option-container'}>
-                    <ul
-                        ref={ref}
-                        onClick={() => setShowDropdown(!showDropdown)}
-                    >
+                    <ul>
                         {/*<li*/}
                         {/*    onClick={() =>*/}
                         {/*        handleCurrentPickChange(showAllProducts)*/}
@@ -109,32 +107,22 @@ const FilterOption = ({
     return (
         <>
             <div className={'filter-option-container'}>
+                {loadingStatus && <LoadingScreen />}
                 <h2 className={'text-bold'}>{title}</h2>
                 <button
-                    onEndedCapture={() => setShowDropdown(!showDropdown)}
                     onClick={() => setShowDropdown(!showDropdown)}
                     className={'btn-option'}
                 >
                     {currentPick.filterLocalName}
                     {showDropdown ? (
-                        <IoMdArrowDropup
-                            className={'btn-option'}
-                            size={30}
-                            color={'#8D8D8D'}
-                        />
+                        <IoMdArrowDropup size={30} color={'#8D8D8D'} />
                     ) : (
-                        <IoMdArrowDropdown
-                            className={'btn-option'}
-                            size={30}
-                            color={'#8D8D8D'}
-                        />
+                        <IoMdArrowDropdown size={30} color={'#8D8D8D'} />
                     )}
                 </button>
-                {/*<input type={'text'} value={currentPick} />*/}
                 <ShowOptions productFinderFilter={productFinderFilter} />
             </div>
         </>
     );
 };
-
 export default FilterOption;

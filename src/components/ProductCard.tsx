@@ -7,12 +7,15 @@ import GetDimensions from './utils/Product/GetDimensions.tsx';
 import GetFeature from './utils/Product/GetFeature.tsx';
 import GetPrice from './utils/Product/GetPrice.tsx';
 import washer from '../assets/imgs/washer.png';
+import { useState } from 'react';
 
 type Props = {
     product: Product;
 };
 
 const ProductCard = ({ product }: Props) => {
+    const [picked, setPicked] = useState(false);
+
     const displayPromotion =
         product.modelList[0].promotionPriceDisplay === undefined
             ? product.modelList[0].priceDisplay
@@ -21,11 +24,11 @@ const ProductCard = ({ product }: Props) => {
     return (
         <div className={'product-card'}>
             <div className={'product-card-top'}>
-                {/*<img*/}
-                {/*    src={product.modelList[0].thumbUrl}*/}
-                {/*    alt={product.modelList[0].thumbUrlAlt}*/}
-                {/*/>*/}
-                <img src={washer} alt={'washer'} />
+                <img
+                    src={product.modelList[0].thumbUrl}
+                    alt={product.modelList[0].thumbUrlAlt}
+                />
+                {/*<img src={washer} alt={'washer'} />*/}
                 <div className={'product-name text-bold'}>
                     {product.fmyMarketingName}
                 </div>
@@ -73,7 +76,14 @@ const ProductCard = ({ product }: Props) => {
                         price={product.modelList[0].price}
                     />
                 </span>
-                <button className={'text-bold'}>WYBIERZ</button>
+                <button
+                    className={
+                        picked ? 'text-bold product-picked' : 'text-bold'
+                    }
+                    onClick={() => setPicked(!picked)}
+                >
+                    {picked ? 'WYBRANE' : 'WYBIERZ'}
+                </button>
             </div>
         </div>
     );

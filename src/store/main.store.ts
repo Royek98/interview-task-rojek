@@ -7,7 +7,7 @@ import {
     Product,
 } from '../models/Response.model.ts';
 import axios from 'axios';
-// import data from '../data/stringamsungApiResponse.json';
+// import data from '../data/samsungApiResponse.json';
 
 // codes example: filter5=05z19 - technology AI Home
 export type Filter = {
@@ -26,12 +26,14 @@ export type ProductState = {
     query: QueryState;
     products: Product[];
     nav: NavGroup[];
-    countProducts: number;
     searchInput: string;
+    lastResponseLength: number;
+    loadingStatus: boolean;
     fetchData: (newQuery: QueryState) => void;
     setQuery: (newQueryState: QueryState) => void;
-    setCountProducts: (countProducts: number) => void;
     setSearchInput: (searchInput: string) => void;
+    setLastResponseLength: (newResponseLength: number) => void;
+    setLoadingStatus: (loadingStatus: boolean) => void;
 };
 
 export const useStore = create<ProductState>((set) => ({
@@ -42,8 +44,9 @@ export const useStore = create<ProductState>((set) => ({
     },
     products: [],
     nav: [],
-    countProducts: 0,
     searchInput: '',
+    lastResponseLength: 10,
+    loadingStatus: false,
     fetchData: async (newQuery: QueryState) => {
         // &filter1=04z01 - only washing machines
         let url =
@@ -57,8 +60,6 @@ export const useStore = create<ProductState>((set) => ({
         const request = await axios.get(url);
         const response = request.data.response;
         // const response = data.response;
-
-        console.log(url);
 
         const navGroups: NavGroup[] = response.resultData.navGroups;
 
@@ -120,8 +121,10 @@ export const useStore = create<ProductState>((set) => ({
 
         set((state) => {
             // if something in filters will change a new product list will replace current one
+            state.setLastResponseLength(productList.length);
+            state.setLoadingStatus(false);
+
             if (newQuery.start === 1) {
-                state.setCountProducts(productList.length);
                 return {
                     products: productList,
                     nav: navGroups,
@@ -129,8 +132,6 @@ export const useStore = create<ProductState>((set) => ({
             }
 
             const newProducts = [...state.products, ...productList];
-
-            state.setCountProducts(newProducts.length);
             return {
                 products: newProducts,
                 nav: navGroups,
@@ -140,11 +141,14 @@ export const useStore = create<ProductState>((set) => ({
     setQuery: (newQueryState: QueryState) => {
         set({ query: newQueryState });
     },
-    setCountProducts: (countProducts: number) => {
-        set({ countProducts: countProducts });
-    },
     setSearchInput: (searchInput: string) => {
         set({ searchInput: searchInput.toLowerCase().trim() });
+    },
+    setLastResponseLength: (newResponseLength) => {
+        set({ lastResponseLength: newResponseLength });
+    },
+    setLoadingStatus: (newLoadingStatus: boolean) => {
+        set({ loadingStatus: newLoadingStatus });
     },
 }));
 

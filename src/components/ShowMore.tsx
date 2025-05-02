@@ -1,9 +1,18 @@
 import '../style/ShowMore.css';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { QueryState, useStore } from '../store/main.store.ts';
+import LoadingScreen from './LoadingScreen.tsx';
 
 const ShowMore = () => {
-    const { fetchData, countProducts, query } = useStore();
+    const {
+        fetchData,
+        products,
+        query,
+        lastResponseLength,
+        loadingStatus,
+        setLoadingStatus,
+    } = useStore();
+    const countProducts = products.length;
 
     const handleFetch = () => {
         const newQuery: QueryState = {
@@ -12,19 +21,29 @@ const ShowMore = () => {
             filters: query.filters,
         };
 
+        setLoadingStatus(true);
         fetchData(newQuery);
     };
 
     return (
         <div className={'center-container'}>
-            <p id={'show-more'} className={'text-bold'} onClick={handleFetch}>
-                Pokaż więcej
-                <IoMdArrowDropdown
-                    className={'btn-option'}
-                    size={20}
-                    color={'#007AFF'}
-                />
-            </p>
+            {loadingStatus && <LoadingScreen />}
+
+            {/* I am always fetch 10 products, so if list of last fetched products is shorter it means there are no more products */}
+            {(lastResponseLength === 10 && (
+                <p
+                    id={'show-more'}
+                    className={'text-bold'}
+                    onClick={handleFetch}
+                >
+                    Pokaż więcej
+                    <IoMdArrowDropdown
+                        className={'btn-option'}
+                        size={20}
+                        color={'#007AFF'}
+                    />
+                </p>
+            )) || <p></p>}
         </div>
     );
 };

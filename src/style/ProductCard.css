@@ -92,6 +92,11 @@
     letter-spacing: 2px;
 }
 
+.product-picked {
+    background-color: #000000 !important;
+}
+
 .product-card-bottom button:hover {
     background-color: #000000;
+    cursor: pointer;
 }

@@ -1,54 +1,50 @@
-# React + TypeScript + Vite
+# Junior AEM Frontend Developer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The project is an interview task. It's a webpage displaying washing machines from [Samsung](https://www.samsung.com/pl/washers-and-dryers/washing-machines/) store.
+I am fetching data from:
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-    extends: [
-        // Remove ...tseslint.configs.recommended and replace with this
-        ...tseslint.configs.recommendedTypeChecked,
-        // Alternatively, use this for stricter rules
-        ...tseslint.configs.strictTypeChecked,
-        // Optionally, add this for stylistic rules
-        ...tseslint.configs.stylisticTypeChecked,
-    ],
-    languageOptions: {
-        // other options...
-        parserOptions: {
-            project: ['./tsconfig.node.json', './tsconfig.app.json'],
-            tsconfigRootDir: import.meta.dirname,
-        },
-    },
-});
+```
+https://searchapi.samsung.com/v6/front/b2c/product/finder/newhybris?type=08010000&siteCode=pl&onlyFilterInfoYN=N&keySummaryYN=Y&specHighlightYN=Y&num=10&filter1=04z01
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+filter1=04z01 - fetch washing machines.  
+num=10 - fetch 10 products (if the response is shorter, then there are no more products available).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+Filter navbar uses arguments:
 
-export default tseslint.config({
-    plugins: {
-        // Add the react-x and react-dom plugins
-        'react-x': reactX,
-        'react-dom': reactDom,
-    },
-    rules: {
-        // other rules...
-        // Enable its recommended typescript rules
-        ...reactX.configs['recommended-typescript'].rules,
-        ...reactDom.configs.recommended.rules,
-    },
-});
+1. start - pagination
+2. sort - sorting products
+3. filter2 - washing machine drum capacity
+4. filter5 - technologies / functionality
+5. filter6 - energry grade
+
+Index in filter indicates category. I wanted to make it look as close as possible to the provided figma mockup, but the order of items in navbar is a little different due to mapping through the API response.
+
+## Live Demo
+
+[https://frontend-interview-task-rojek.web.app/](https://frontend-interview-task-rojek.web.app/)
+
+## Tech stack
+
+- Vite
+- TypeScript
+- React
+- Zustand
+- Axios
+- Firebase (just deployment)
+
+## Run Locally
+
 ```
+npm run dev
+```
+
+## Screenshots
+
+### Desktop
+
+![Desktop view](docs/desktop.png)
+
+### Mobile
+
+![Mobile view](docs/mobile.png)
